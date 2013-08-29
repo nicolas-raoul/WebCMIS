@@ -45,19 +45,33 @@
 
 <script>
 $.getJSON(
-     endpoint + "/" + repository + "/root" + folder + "?succinct=true&callback=?",
-     function(data){
+    endpoint + "/" + repository + "/root" + folder + "?succinct=true&callback=?",
+    function(data){
         // Handle JSONP response.
         $("textarea").text(JSON.stringify(data, null, "\t"));
         
         // json2html template.
-        var transform = [{"tag":"li", "html":"${object.succinctProperties.cmis:name}"}];
+        var transform = [{
+            "tag":"li",
+            "html":function(){
+                var name = this.object.succinctProperties["cmis:name"];
+                var type = this.object.succinctProperties["cmis:objectTypeId"];
+                var size = this.object.succinctProperties["cmis:contentStreamLength"];
+                if (size == undefined) {
+                    return name + " <span style='color:silver'>[" + type + "]</span>";
+                }
+                else {
+                    var downloadURL = endpoint + "/" + repository + "/root" + folder + "/" + name;
+                    return "<a href='" + downloadURL + "'>" + name + "</a> <span style='color:silver'>[" + type + ", " + size + " bytes]</span>";
+                }
+            }
+        }];
         
         // Update view.
         $("ul").html("");
         $("ul").json2html(data.objects, transform);
         $("a").show();
-     }
+    }
 );
 $(document).ready(function(){
   $("a").click(function(){

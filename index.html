@@ -49,7 +49,11 @@ $.getJSON(
      function(data){
         // Handle JSONP response.
         $("textarea").text(JSON.stringify(data, null, "\t"));
+        
+        // json2html template.
         var transform = [{"tag":"li", "html":"${object.succinctProperties.cmis:name}"}];
+        
+        // Update view.
         $("ul").html("");
         $("ul").json2html(data.objects, transform);
         $("a").show();

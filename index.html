@@ -25,42 +25,64 @@
 /* ---------------------------------------- Settings ------------------------------------------------ */
   var endpoint = "http://cmis.alfresco.com/cmisbrowser";
   var repository = "bb212ecb-122d-47ea-b5c1-128affb9cd8f";
-  var folder = "/Data Dictionary";
+  var initialFolder = "/Data Dictionary";
 /* -------------------------------------------------------------------------------------------------- */
 </script>
 </head>
 <body>
 
 <!-- Header -->
-<h1>WebCMIS: <script>document.write(folder);</script></h1>
+<h1><img src="logo.png" alt="WebCMIS"/> <script>document.write(initialFolder);</script></h1>
 
 <!-- List of CMIS objects -->
 <ul>Loading from CMIS server, please wait...</ul>
 
 <!-- Text area showing the raw JSONP data -->
-<a href="#" style="display:none">Details...</a>
+<a id="details" href="#" style="display:none">Details...</a>
 <textarea rows="10" cols="100" style="display:none"></textarea>
 
-<p style="font-style:italic;font-size:75%;color:silver">WebCMIS is a pure HTML/JavaScript solution for accessing CMIS repositories. Copyright <a href="http://CmisSync.com">Nicolas Raoul</a> 2013, Open Source.</p>
+<p style="font-style:italic;font-size:75%;color:silver"><a href="https://github.com/nicolas-raoul/WebCMIS">WebCMIS</a> is a pure HTML/JavaScript client for CMIS repositories. Copyright <a href="http://CmisSync.com">Nicolas Raoul</a> 2013, Open Source. Tested with Alfresco, feedback welcome: nicolas.raoul@aegif.jp<br/>
+TODO: Paging, search, upload, file edition, recent changes, object history, thumbnails/icons, check-in/check-out, ACL/policies management, customizable CSS.</p>
 
 <script>
+function navigate(folder) {
 $.getJSON(
-     endpoint + "/" + repository + "/root" + folder + "?succinct=true&callback=?",
-     function(data){
+    endpoint + "/" + repository + "/root" + folder + "?succinct=true&callback=?",
+    function(data){
         // Handle JSONP response.
         $("textarea").text(JSON.stringify(data, null, "\t"));
-        var transform = [{"tag":"li", "html":"${object.succinctProperties.cmis:name}"}];
+        
+        // json2html template.
+        var transform = [{
+            "tag":"li",
+            "html":function(){
+                var name = this.object.succinctProperties["cmis:name"];
+                var type = this.object.succinctProperties["cmis:objectTypeId"];
+                var size = this.object.succinctProperties["cmis:contentStreamLength"];
+                if (size == undefined) {
+                    return "<a href='javascript:navigate(\"" + folder + "/" + name + "\")'>" + name + "</a> <span style='color:silver'>[" + type + "]</span>";
+                }
+                else {
+                    var downloadURL = endpoint + "/" + repository + "/root" + folder + "/" + name;
+                    return "<a href='" + downloadURL + "'>" + name + "</a> <span style='color:silver'>[" + type + ", " + size + " bytes]</span>";
+                }
+            }
+        }];
+        
+        // Update view.
         $("ul").html("");
         $("ul").json2html(data.objects, transform);
         $("a").show();
-     }
+    }
 );
+}
 $(document).ready(function(){
-  $("a").click(function(){
+  $("#details").click(function(){
     $("textarea").show();
-    $("a").hide();
+    $("#details").hide();
   });
 });
+navigate(initialFolder);
 </script>
 
 </body>

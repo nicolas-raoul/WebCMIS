@@ -1,7 +1,6 @@
-WebCMIS
-=======
+![WebCMIS](https://raw.github.com/nicolas-raoul/WebCMIS/master/logo.png)
 
-Pure HTML/JavaScript solution for accessing CMIS repositories
+WeCMIS: Pure HTML/JavaScript client for CMIS repositories
 
 [Try the live demo](http://nicolas-raoul.github.io/WebCMIS/) (login/password: admin/admin)
 

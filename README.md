@@ -1,4 +1,4 @@
-![WebCMIS](https://raw.github.com/nicolas-raoul/WebCMIS/master/logo.png)
+![WebCMIS](https://raw.github.com/nicolas-raoul/WebCMIS/master/src/logo.png)
 
 WebCMIS: Pure HTML/JavaScript client for CMIS repositories
 
@@ -7,6 +7,6 @@ WebCMIS: Pure HTML/JavaScript client for CMIS repositories
 To integrate WebCMIS with your own CMIS repository, fork and clone this project, then modify the CMIS URL, repository, initial folder in `index.html`.
 Please [reports bugs](https://github.com/nicolas-raoul/WebCMIS/issues), fork and send us patches/improvements. WebCMIS is meant to become a full-featured CMIS explorer/editor, generic and extensible.
 
-![Concept](https://raw.github.com/nicolas-raoul/WebCMIS/master/concept.png)
+![Concept](https://raw.github.com/nicolas-raoul/WebCMIS/master/doc/concept.png)
 
 *See also our other CMIS products: [CmisSync](http://CmisSync.com) and [NemakiWare](http://NemakiWare.com)*

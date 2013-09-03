@@ -51,6 +51,20 @@
     <input name="propertyValue[1]" type="hidden" value="cmis:folder"></td>
     <input type="submit" value="Create Folder" />    
 </form>
+<form
+    name="queryForm"
+    method="post"
+    enctype="multipart/form-data">
+    <input name="cmisaction" type="hidden" value="query" />
+    <input name="statement" type="text" value="SELECT cmis:name FROM cmis:document WHERE cmis:name like '%aegif%'" />
+    <input name="searchAllVersions" type="hidden" value="false" />
+    <input name="includeRelationships" type="hidden" value="none" />
+    <input name="renditionFilter" type="hidden" value="cmis:none" />
+    <input name="includeAllowableActions" type="hidden" value="false" />
+    <input name="maxItems" type="hidden" value="10" />
+    <input name="skipCount" type="hidden" value="0" />
+    <input type="submit" value="Search" />    
+</form>
 
 <!-- Text area showing the raw JSONP data -->
 <a id="details" href="#" style="display:none">Details...</a>
@@ -95,8 +109,11 @@ $.getJSON(
         $("ul").html("");
         $("ul").json2html(data.objects, transform);
         $("a").show();
-        $("form").attr( "action", function() {
+        $('form[name="createFolderForm"]').attr( "action", function() {
             return endpoint + "/" + repository + "/root" + folder;
+        });
+        $('form[name="queryForm"]').attr( "action", function() {
+            return endpoint + "/" + repository;
         });
     }
 );

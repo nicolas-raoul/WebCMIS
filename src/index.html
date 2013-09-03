@@ -45,6 +45,7 @@
     name="createFolderForm"
     method="post">
     <input name="cmisaction" type="hidden" value="createFolder" />
+    <input name="succinct" type="hidden" value="true" />
     <input name="propertyId[0]" type="hidden" value="cmis:name" />
     <input name="propertyValue[0]" type="text" value="Enter new folder name" />
     <input name="propertyId[1]" type="hidden" value="cmis:objectTypeId" />
@@ -56,7 +57,8 @@
     method="post"
     enctype="multipart/form-data">
     <input name="cmisaction" type="hidden" value="query" />
-    <input name="statement" type="text" value="SELECT cmis:name FROM cmis:document WHERE cmis:name like '%aegif%'" />
+    <input name="succinct" type="hidden" value="true" />
+    <input name="statement" type="text" value="SELECT * FROM cmis:folder" />
     <input name="searchAllVersions" type="hidden" value="false" />
     <input name="includeRelationships" type="hidden" value="none" />
     <input name="renditionFilter" type="hidden" value="cmis:none" />
@@ -75,7 +77,8 @@
 Copyright <a href="http://CmisSync.com">Nicolas Raoul</a> 2013, Open Source.
 Tested with Alfresco, feedback welcome: nicolas.raoul@aegif.jp<br/>
 TODO: Paging, search, upload, file edition, recent changes, object history,
-thumbnails/icons, check-in/check-out, ACL/policies management, customizable CSS.
+thumbnails/icons, check-in/check-out, ACE/policies management,
+secondary types management, customizable CSS.
 </p>
 
 <script>

@@ -37,6 +37,18 @@
 <!-- List of CMIS objects -->
 <ul>Loading from CMIS server, please wait...</ul>
 
+<!-- Operations -->
+<form
+    name="createFolderForm"
+    method="post">
+    <input name="cmisaction" type="hidden" value="createFolder" />
+    <input name="propertyId[0]" type="hidden" value="cmis:name" />
+    <input name="propertyValue[0]" type="text" value="Enter new folder name" />
+    <input name="propertyId[1]" type="hidden" value="cmis:objectTypeId" />
+    <input name="propertyValue[1]" type="hidden" value="cmis:folder"></td>
+    <input type="submit" value="Create Folder" />    
+</form>
+
 <!-- Text area showing the raw JSONP data -->
 <a id="details" href="#" style="display:none">Details...</a>
 <textarea rows="10" cols="100" style="display:none"></textarea>
@@ -73,6 +85,9 @@ $.getJSON(
         $("ul").html("");
         $("ul").json2html(data.objects, transform);
         $("a").show();
+        $("form").attr( "action", function() {
+            return endpoint + "/" + repository + "/root" + folder;
+        });
     }
 );
 }

@@ -32,17 +32,51 @@
 <body>
 
 <!-- Header -->
-<h1><img src="logo.png" alt="WebCMIS"/> <script>document.write(initialFolder);</script></h1>
+<h1>
+    <img src="logo.png" alt="WebCMIS"/>
+    <script>document.write(initialFolder);</script>
+</h1>
 
 <!-- List of CMIS objects -->
 <ul>Loading from CMIS server, please wait...</ul>
+
+<!-- Operations -->
+<form
+    name="createFolderForm"
+    method="post">
+    <input name="cmisaction" type="hidden" value="createFolder" />
+    <input name="propertyId[0]" type="hidden" value="cmis:name" />
+    <input name="propertyValue[0]" type="text" value="Enter new folder name" />
+    <input name="propertyId[1]" type="hidden" value="cmis:objectTypeId" />
+    <input name="propertyValue[1]" type="hidden" value="cmis:folder"></td>
+    <input type="submit" value="Create Folder" />    
+</form>
+<form
+    name="queryForm"
+    method="post"
+    enctype="multipart/form-data">
+    <input name="cmisaction" type="hidden" value="query" />
+    <input name="statement" type="text" value="SELECT cmis:name FROM cmis:document WHERE cmis:name like '%aegif%'" />
+    <input name="searchAllVersions" type="hidden" value="false" />
+    <input name="includeRelationships" type="hidden" value="none" />
+    <input name="renditionFilter" type="hidden" value="cmis:none" />
+    <input name="includeAllowableActions" type="hidden" value="false" />
+    <input name="maxItems" type="hidden" value="10" />
+    <input name="skipCount" type="hidden" value="0" />
+    <input type="submit" value="Search" />    
+</form>
 
 <!-- Text area showing the raw JSONP data -->
 <a id="details" href="#" style="display:none">Details...</a>
 <textarea rows="10" cols="100" style="display:none"></textarea>
 
-<p style="font-style:italic;font-size:75%;color:silver"><a href="https://github.com/nicolas-raoul/WebCMIS">WebCMIS</a> is a pure HTML/JavaScript client for CMIS repositories. Copyright <a href="http://CmisSync.com">Nicolas Raoul</a> 2013, Open Source. Tested with Alfresco, feedback welcome: nicolas.raoul@aegif.jp<br/>
-TODO: Paging, search, upload, file edition, recent changes, object history, thumbnails/icons, check-in/check-out, ACL/policies management, customizable CSS.</p>
+<p style="font-style:italic;font-size:75%;color:silver">
+<a href="https://github.com/nicolas-raoul/WebCMIS">WebCMIS</a> is a pure HTML/JavaScript client for CMIS repositories.
+Copyright <a href="http://CmisSync.com">Nicolas Raoul</a> 2013, Open Source.
+Tested with Alfresco, feedback welcome: nicolas.raoul@aegif.jp<br/>
+TODO: Paging, search, upload, file edition, recent changes, object history,
+thumbnails/icons, check-in/check-out, ACL/policies management, customizable CSS.
+</p>
 
 <script>
 function navigate(folder) {
@@ -60,11 +94,13 @@ $.getJSON(
                 var type = this.object.succinctProperties["cmis:objectTypeId"];
                 var size = this.object.succinctProperties["cmis:contentStreamLength"];
                 if (size == undefined) {
-                    return "<a href='javascript:navigate(\"" + folder + "/" + name + "\")'>" + name + "</a> <span style='color:silver'>[" + type + "]</span>";
+                    return "<a href='javascript:navigate(\"" + folder + "/" + name + "\")'>"
+                        + name + "</a> <span style='color:silver'>[" + type + "]</span>";
                 }
                 else {
                     var downloadURL = endpoint + "/" + repository + "/root" + folder + "/" + name;
-                    return "<a href='" + downloadURL + "'>" + name + "</a> <span style='color:silver'>[" + type + ", " + size + " bytes]</span>";
+                    return "<a href='" + downloadURL + "'>" + name
+                        + "</a> <span style='color:silver'>[" + type + ", " + size + " bytes]</span>";
                 }
             }
         }];
@@ -73,6 +109,12 @@ $.getJSON(
         $("ul").html("");
         $("ul").json2html(data.objects, transform);
         $("a").show();
+        $('form[name="createFolderForm"]').attr( "action", function() {
+            return endpoint + "/" + repository + "/root" + folder;
+        });
+        $('form[name="queryForm"]').attr( "action", function() {
+            return endpoint + "/" + repository;
+        });
     }
 );
 }

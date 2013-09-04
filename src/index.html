@@ -25,11 +25,13 @@
 <script type="text/javascript" src="json2html.js"></script>
 <script type="text/javascript" src="jquery.json2html.js"></script>
 <script type="text/javascript">
+/* <![CDATA[ */
 /* ---------------------------------------- Settings ------------------------------------------------ */
   var endpoint = "http://cmis.alfresco.com/cmisbrowser";
   var repository = "bb212ecb-122d-47ea-b5c1-128affb9cd8f";
   var initialFolder = "/Data Dictionary";
 /* -------------------------------------------------------------------------------------------------- */
+/* ]]> */
 </script>
 </head>
 <body>
@@ -37,7 +39,7 @@
 <!-- Header -->
 <h1>
     <img src="logo.png" alt="WebCMIS"/>
-    <script type="text/javascript">document.write(initialFolder);</script>
+    <script type="text/javascript"> /* <![CDATA[ */ document.write(initialFolder); /* ]]> */ </script>
 </h1>
 
 <!-- List of CMIS objects -->
@@ -78,8 +80,8 @@
 </form>
 
 <!-- Text area showing the raw JSONP data -->
-<a id="details" href="#" style="display:none">Details...</a>
-<textarea rows="10" cols="100" style="display:none"></textarea>
+<div><a id="detailsLink" href="#" style="display:none">Details...</a></div>
+<div id="details" style="display:none"><textarea rows="10" cols="100"></textarea></div>
 
 <p style="font-style:italic;font-size:75%;color:silver">
 <a href="https://github.com/nicolas-raoul/WebCMIS">WebCMIS</a> is a pure HTML/JavaScript client for CMIS repositories.
@@ -91,6 +93,7 @@ secondary types management, customizable CSS.
 </p>
 
 <script type="text/javascript">
+/* <![CDATA[ */
 function navigate(folder) {
 $.getJSON(
     endpoint + "/" + repository + "/root" + folder + "?succinct=true&callback=?",
@@ -131,12 +134,13 @@ $.getJSON(
 );
 }
 $(document).ready(function(){
-  $("#details").click(function(){
-    $("textarea").show();
-    $("#details").hide();
+  $("#detailsLink").click(function(){
+    $("#details").show();
+    $("#detailsLink").hide();
   });
 });
 navigate(initialFolder);
+/* ]]> */
 </script>
 
 </body>

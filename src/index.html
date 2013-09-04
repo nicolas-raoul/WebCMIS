@@ -37,7 +37,7 @@
 <!-- Header -->
 <h1>
     <img src="logo.png" alt="WebCMIS"/>
-    <script>document.write(initialFolder);</script>
+    <script type="text/javascript">document.write(initialFolder);</script>
 </h1>
 
 <!-- List of CMIS objects -->
@@ -45,20 +45,25 @@
 
 <!-- Operations -->
 <form
-    name="createFolderForm"
-    method="post">
+    id="createFolderForm"
+    method="post"
+    action="">
+    <fieldset>
     <input name="cmisaction" type="hidden" value="createFolder" />
     <input name="succinct" type="hidden" value="true" />
     <input name="propertyId[0]" type="hidden" value="cmis:name" />
     <input name="propertyValue[0]" type="text" value="Enter new folder name" />
     <input name="propertyId[1]" type="hidden" value="cmis:objectTypeId" />
     <input name="propertyValue[1]" type="hidden" value="cmis:folder" />
-    <input type="submit" value="Create Folder" />    
+    <input type="submit" value="Create Folder" />
+    </fieldset>
 </form>
 <form
-    name="queryForm"
+    id="queryForm"
     method="post"
-    enctype="multipart/form-data">
+    enctype="multipart/form-data"
+    action="">
+    <fieldset>
     <input name="cmisaction" type="hidden" value="query" />
     <input name="succinct" type="hidden" value="true" />
     <input name="statement" type="text" value="SELECT * FROM cmis:folder" />
@@ -69,6 +74,7 @@
     <input name="maxItems" type="hidden" value="10" />
     <input name="skipCount" type="hidden" value="0" />
     <input type="submit" value="Search" />    
+    </fieldset>
 </form>
 
 <!-- Text area showing the raw JSONP data -->
@@ -115,10 +121,10 @@ $.getJSON(
         $("ul").html("");
         $("ul").json2html(data.objects, transform);
         $("a").show();
-        $('form[name="createFolderForm"]').attr( "action", function() {
+        $("#createFolderForm").attr( "action", function() {
             return endpoint + "/" + repository + "/root" + folder;
         });
-        $('form[name="queryForm"]').attr( "action", function() {
+        $("#queryForm").attr( "action", function() {
             return endpoint + "/" + repository;
         });
     }

@@ -1,0 +1,80 @@
+=== Bitesize tasks ===
+
+1. Button to go to parent folder
+Developer: 
+Status: 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.4
+
+2. File upload
+Developer: 
+Status: 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.7
+
+3. Delete file
+Developer: 
+Status: 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.20
+
+4. Delete folder recusrsively
+Developer: 
+Status: 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.21
+
+5. Paging
+Developer: 
+Status: 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.1
+
+6. Search by name
+Developer: 
+Status: 
+Tip: http://wiki.alfresco.com/wiki/CMIS_Query_Language
+
+7. Search full-text
+Developer: 
+Status: 
+Tip: http://wiki.alfresco.com/wiki/CMIS_Query_Language
+
+8. List of recent changes
+Developer: 
+Status: 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.2.14
+
+9. Object history
+Developer: 
+Status: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.32
+
+10. Generic folder/office icons, can use https://commons.wikimedia.org/wiki/Nuvola/mimetypes
+Developer: 
+Status: 
+
+11. Check-out
+Developer: 
+Status: 
+http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.27
+
+12. Cancel check-out
+Developer: 
+Status: 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.28
+
+13. Check-in
+Developer: 
+Status: 
+Tip: http://docs.oasis-open.org/cmis/CMIS/v1.1/cs01/CMIS-v1.1-cs01.html 5.4.3.29
+
+14. Customizable CSS
+Developer: 
+Status: 
+
+
+=== More difficult tasks ====
+
+Text file editor
+
+Image thumbnails
+
+ACE/policies management
+
+Secondary types management

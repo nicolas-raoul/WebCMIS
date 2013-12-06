@@ -22,8 +22,8 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <title>WebCMIS</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="json2html.js"></script>
-<script type="text/javascript" src="jquery.json2html.js"></script>
+<script type="text/javascript" src="https://raw.github.com/nicolas-raoul/WebCMIS/master/src/json2html.js"></script>
+<script type="text/javascript" src="https://raw.github.com/nicolas-raoul/WebCMIS/master/src/jquery.json2html.js"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
 /* ---------------------------------------- Settings ------------------------------------------------ */
@@ -60,6 +60,22 @@
     <input type="submit" value="Create Folder" />
     </fieldset>
 </form>
+
+<form
+    id="createDocument"
+    method="post"
+    action="">
+    <fieldset>
+    <input name="cmisaction" type="hidden" value="createDocument" />
+    <input name="succinct" type="hidden" value="true" />
+    <input name="versioningState" type="hidden" value=none />
+    <input name="propertyId[0]" type="hidden" value="cmis:objectTypeId" />
+    <input name="propertyValue[0]" type="hidden" value="cmis:file" />
+    <input name="content" type="file" value="" />
+    <input type="submit" value="Create Document" />
+    </fieldset>
+</form>
+
 <form
     id="queryForm"
     method="post"
@@ -97,11 +113,44 @@ Tested with Alfresco, feedback welcome: nicolas.raoul@aegif.jp
     </a>
 </p>
 
+<!--
+<script type="text/javascript">
+/* <![CDATA[ */
+function back2parent(){
+
+//get parent folder
+var parent = initialFolder.lastIndexOf("/")
+    
+//call navigate method with parent folder value
+navigate(parent)
+}
+/* ]]> */
+</script>
+-->
+
+<script type="text/javascript">
+/* <![CDATA[ */
+function deleteTree(folderId) {
+$.post(endpoint + "?cmisAction=deleteTree&repositoryId=" + repository + "&folderId=" + folderId );
+navigate(initialFolder);
+}
+/* ]]> */
+</script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+function deleteDocument(objectId) {
+$.post(endpoint + "?cmisAction=delete&repositoryId=" + repository + "&objectId=" + objectId + "&allVersions=true");
+navigate(initialFolder);
+}
+/* ]]> */
+</script>
+
 <script type="text/javascript">
 /* <![CDATA[ */
 function navigate(folder) {
 $.getJSON(
-    endpoint + "/" + repository + "/root" + folder + "?succinct=true&callback=?",
+    endpoint + "/" + repository + "/root" + folder + "?succinct=true&skipCount=10&callback=?",
     function(data){
         // Handle JSONP response.
         $("textarea").text(JSON.stringify(data, null, "\t"));
@@ -113,14 +162,25 @@ $.getJSON(
                 var name = this.object.succinctProperties["cmis:name"];
                 var type = this.object.succinctProperties["cmis:objectTypeId"];
                 var size = this.object.succinctProperties["cmis:contentStreamLength"];
+                        var objId = this.object.succinctProperties["cmis:objectId"];
+
+                        // The element is a folder.
                 if (size == undefined) {
                     return "<a href='javascript:navigate(\"" + folder + "/" + name + "\")'>"
-                        + name + "</a> <span style='color:silver'>[" + type + "]</span>";
+                        + name + "</a> <span style='color:silver'>[" 
+                        + type + "]</span><a href='javascript:deleteTree(\"" 
+                        + objId  + "\")'>[Delete this recusrsively]</a>";
                 }
+
+                        // The element is a document.
                 else {
                     var downloadURL = endpoint + "/" + repository + "/root" + folder + "/" + name;
-                    return "<a href='" + downloadURL + "'>" + name
-                        + "</a> <span style='color:silver'>[" + type + ", " + size + " bytes]</span>";
+                        // Doc info
+                        var docInfo = "<a href='" + downloadURL + "'>" + name + "</a> <span style='color:silver'>[" + type + ", " + size + " bytes]</span>";
+                        // Delete button form
+                    var deleteForm = "<a href='javascript:deleteDocument(\"" 
+                        + objId + "\")'>[Delete this document]</a>";
+                    return docInfo + deleteForm;
                 }
             }
         }];
@@ -133,6 +193,9 @@ $.getJSON(
             return endpoint + "/" + repository + "/root" + folder;
         });
         $("#queryForm").attr( "action", function() {
+            return endpoint + "/" + repository;
+        });
+        $("#createDocument").attr( "action", function() {
             return endpoint + "/" + repository;
         });
     }
